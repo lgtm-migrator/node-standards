@@ -1,126 +1,134 @@
-# Zefiros Node Standard
-This package makes it easy to share development dependencies across Zefiros packages.
+# Node Standards _(@zefiros-software/node-standards)_
+
+<p>
+  <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/zefiros-software/node-standards">
+  <img alt="Version" src="https://img.shields.io/github/package-json/v/zefiros-software/node-standards" />
+  <img alt="LGTM Grade" src="https://img.shields.io/lgtm/grade/javascript/github/zefiros-software/node-standards">
+  <img src="https://img.shields.io/badge/node-%3E%3D16-blue.svg" />
+  <a href="#" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  </a>
+</p>
+
+> Nihil est sine ratione.
+>
+> - Gottfried Wilhelm Leibniz
+
+Node Standards is an opinionated collection of best practices, bundled in a way to easily configure new (and old) typescript projects.
+
+Keeping up-to-date with project configuration is hard enough on a single repository, let alone if you have to manage a handful. With Node Standards you can centrally build your configuration, and define a project structure - and keep them up to date with a linter. Node Standards if flexible and extensible enough that you can make it work for any project.
+
+```sh
+node-standards <command>
+
+Commands:
+  node-standards create <name>  create a new project
+  node-standards lint           lint the project configuration
+
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
+```
+
+## Install
+
+Install Node Standards using [`npm`](https://www.npmjs.com/):
+
+```console
+ $ npm install --save-dev @zefiros-software/node-standards
+```
+
+## Table of Contents
 
 <!-- toc -->
-* [Zefiros Node Standard](#zefiros-node-standards)
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [Install](#install)
+- [Usage](#usage)
+  * [Create](#Create)
+  * [Lint](#Lint)
+- [Alternative projects](#alternative-projects)
+- [When not to use Node Standards?](#when-not-to-use-node-standards)
+- [License](#license)
+
 <!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g @zefiros-software/node-standards
-$ node-standards COMMAND
-running command...
-$ node-standards (-v|--version|version)
-@zefiros-software/node-standards/0.2.0-beta.50 linux-x64 node-v12.16.3
-$ node-standards --help [COMMAND]
-USAGE
-  $ node-standards COMMAND
-...
-```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-* [`node-standards ci`](#node-standards-ci)
-* [`node-standards create TYPE NAME`](#node-standards-create-type-name)
-* [`node-standards env`](#node-standards-env)
-* [`node-standards help [COMMAND]`](#node-standards-help-command)
-* [`node-standards lint`](#node-standards-lint)
-* [`node-standards make-release`](#node-standards-make-release)
-* [`node-standards release`](#node-standards-release)
 
-## `node-standards ci`
+## Usage
 
-run all ci tests
 
-```
-USAGE
-  $ node-standards ci
-```
+### Configuration
 
-_See code: [dist/commands/ci.ts](https://github.com/zefiros-software/node-standards/blob/v0.2.0-beta.50/dist/commands/ci.ts)_
+Node Standards takes little time to set up. 
+ 1. Add Node Standards to the devDependencies
+ 2. Configure the project linting in the package.json
 
-## `node-standards create TYPE NAME`
-
-run all ci tests
-
-```
-USAGE
-  $ node-standards create TYPE NAME
-
-ARGUMENTS
-  TYPE  (library|oclif-cli) [default: library] the package type
-  NAME  the package name
+The package.json should adhere to the following type:
+```ts
+interface PackageJson {
+  ...
+  "node-standards": {
+    type: "yargs-cli" | "library"
+    template?: {
+        // a list of files to exclude from linting
+        exclude?: string[]
+        // by default all the options are enabled
+        lint?: {
+            files?: boolean
+            dependencies?: boolean
+            devDependencies?: boolean
+            script?: boolean
+            definition?: boolean
+        }
+    }
+  },
+  ...
+}
 ```
 
-_See code: [dist/commands/create.ts](https://github.com/zefiros-software/node-standards/blob/v0.2.0-beta.50/dist/commands/create.ts)_
+### Create
+Create a new project of the given type and name.
 
-## `node-standards env`
+```console
+node-standards create <name>
 
-provision global environment
+create a new project
 
-```
-USAGE
-  $ node-standards env
+Positionals:
+  name  the new package name                                 [string] [required]
 
-OPTIONS
-  -h, --help  show CLI help
-  --install   install the environment
-```
-
-_See code: [dist/commands/env.ts](https://github.com/zefiros-software/node-standards/blob/v0.2.0-beta.50/dist/commands/env.ts)_
-
-## `node-standards help [COMMAND]`
-
-display help for node-standards
-
-```
-USAGE
-  $ node-standards help [COMMAND]
-
-ARGUMENTS
-  COMMAND  command to show help for
-
-OPTIONS
-  --all  see all commands in CLI
+Options:
+  --type     package type
+      [string] [required] [choices: "library", "yargs-cli"] [default: "library"]
+  --local    create from local examples instead of Github artifact
+                                                       [boolean] [default: true]
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.0.0/src/commands/help.ts)_
+### Lint
+Ensure the project is up-to-date with the latest project structure and configuration. The `--fix` setting can be used to automatically fix most issues found.
 
-## `node-standards lint`
+```
+node-standards lint
 
 lint the project configuration
 
-```
-USAGE
-  $ node-standards lint
-
-OPTIONS
-  --fix
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
+  --fix      try to fix the errors                    [boolean] [default: false]
 ```
 
-_See code: [dist/commands/lint.ts](https://github.com/zefiros-software/node-standards/blob/v0.2.0-beta.50/dist/commands/lint.ts)_
+## Alternative projects
 
-## `node-standards make-release`
+In no particular order, the following libraries try to solve similar problems (albeit very different):
 
-create a pull request to release to stable
+-   [`eslint-config-airbnb`](https://www.npmjs.com/package/eslint-config-airbnb); provides a default configuration for eslint
 
-```
-USAGE
-  $ node-standards make-release
-```
+PR's are very welcome if you think your project is missing here.
 
-_See code: [dist/commands/make-release.ts](https://github.com/zefiros-software/node-standards/blob/v0.2.0-beta.50/dist/commands/make-release.ts)_
+## When not to use Node Standards?
 
-## `node-standards release`
+- We aim to configure our settings to be as strict as possible. Not everyone might like this.
+- Node Standards is an insanely opinionated implementation, and this may not fit your needs or vision.
 
-release the package (standard-release)
+## License
 
-```
-USAGE
-  $ node-standards release
-```
-
-_See code: [dist/commands/release.ts](https://github.com/zefiros-software/node-standards/blob/v0.2.0-beta.50/dist/commands/release.ts)_
-<!-- commandsstop -->
+Therefore is [MIT licensed](./LICENSE).
