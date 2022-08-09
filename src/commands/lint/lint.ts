@@ -127,7 +127,7 @@ export class ProjectLinter {
     }
 
     public linDefinition(): void {
-        if (this.config?.template?.ignore?.definition === true) {
+        if (this.config?.template?.lint?.definition === false) {
             return
         }
 
@@ -147,7 +147,7 @@ export class ProjectLinter {
     }
 
     public lintPackageFiles(): void {
-        if (this.config?.template?.ignore?.files === true) {
+        if (this.config?.template?.lint?.files === false) {
             return
         }
 
@@ -170,7 +170,7 @@ export class ProjectLinter {
     }
 
     public lintScripts(): void {
-        if (this.config?.template?.ignore?.script === true) {
+        if (this.config?.template?.lint?.script === false) {
             return
         }
         if (!this.packagejson.scripts) {
@@ -197,7 +197,7 @@ export class ProjectLinter {
     }
 
     public lintDependencies(): void {
-        if (this.config?.template?.ignore?.dependencies === true) {
+        if (this.config?.template?.lint?.dependencies === false) {
             return
         }
         this.packagejson.dependencies ??= {}
@@ -225,7 +225,7 @@ export class ProjectLinter {
     }
 
     public lintDevDependencies(): void {
-        if (this.config?.template?.ignore?.devDependencies === true) {
+        if (this.config?.template?.lint?.devDependencies === false) {
             return
         }
         this.packagejson.dependencies ??= {}

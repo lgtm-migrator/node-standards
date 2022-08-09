@@ -9,7 +9,7 @@ export interface PackageConfiguration {
     type: PackageType
     template?: {
         exclude?: string[]
-        ignore?: {
+        lint?: {
             files?: boolean
             dependencies?: boolean
             devDependencies?: boolean

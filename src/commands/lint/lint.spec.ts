@@ -68,12 +68,13 @@ describe('lint definition', () => {
         const config: PackageConfiguration = {
             type: PackageType.YargsCli,
             template: {
-                ignore: {
-                    definition: true,
+                lint: {
+                    definition: false,
                 },
             },
         }
         const packagejson = { 'foo-key': config } as unknown as PackageJson
+        jest.spyOn(linter, 'template', 'get').mockReturnValue({ definition: { foo: 'bar' } } as unknown as ProjectTemplate)
         jest.spyOn(linter, 'packagejson', 'get').mockReturnValue(packagejson)
 
         linter.linDefinition()
@@ -121,13 +122,14 @@ describe('lint package files', () => {
         const config: PackageConfiguration = {
             type: PackageType.YargsCli,
             template: {
-                ignore: {
-                    files: true,
+                lint: {
+                    files: false,
                 },
             },
         }
         const packagejson = { 'foo-key': config } as unknown as PackageJson
         jest.spyOn(linter, 'packagejson', 'get').mockReturnValue(packagejson)
+        jest.spyOn(linter, 'template', 'get').mockReturnValue({ files: ['foo', 'bar'] } as unknown as ProjectTemplate)
 
         linter.lintPackageFiles()
         expect(linter.shouldFail).toBeFalsy()
@@ -180,15 +182,16 @@ describe('lint script', () => {
         const config: PackageConfiguration = {
             type: PackageType.YargsCli,
             template: {
-                ignore: {
-                    script: true,
+                lint: {
+                    script: false,
                 },
             },
         }
         const packagejson = { 'foo-key': config } as unknown as PackageJson
         jest.spyOn(linter, 'packagejson', 'get').mockReturnValue(packagejson)
+        jest.spyOn(linter, 'template', 'get').mockReturnValue({ scripts: { foo: 'bar' } } as unknown as ProjectTemplate)
 
-        linter.lintDependencies()
+        linter.lintScripts()
         expect(linter.shouldFail).toBeFalsy()
     })
 
@@ -280,13 +283,18 @@ describe('lint dependencies', () => {
         const config: PackageConfiguration = {
             type: PackageType.YargsCli,
             template: {
-                ignore: {
-                    dependencies: true,
+                lint: {
+                    dependencies: false,
                 },
             },
         }
         const packagejson = { 'foo-key': config } as unknown as PackageJson
         jest.spyOn(linter, 'packagejson', 'get').mockReturnValue(packagejson)
+        jest.spyOn(linter, 'template', 'get').mockReturnValue({
+            dependencies: {
+                foo: 'bar',
+            },
+        } as unknown as ProjectTemplate)
 
         linter.lintDependencies()
         expect(linter.shouldFail).toBeFalsy()
@@ -415,13 +423,18 @@ describe('lint devDependencies', () => {
         const config: PackageConfiguration = {
             type: PackageType.YargsCli,
             template: {
-                ignore: {
-                    devDependencies: true,
+                lint: {
+                    devDependencies: false,
                 },
             },
         }
         const packagejson = { 'foo-key': config } as unknown as PackageJson
         jest.spyOn(linter, 'packagejson', 'get').mockReturnValue(packagejson)
+        jest.spyOn(linter, 'template', 'get').mockReturnValue({
+            devDependencies: {
+                foo: 'bar',
+            },
+        } as unknown as ProjectTemplate)
 
         linter.lintDevDependencies()
         expect(linter.shouldFail).toBeFalsy()
