@@ -4,9 +4,8 @@ module.exports = {
         ...(process.env.BETA_RELEASE === 'true'
             ? [
                   {
-                      name: '*',
-                      channel: 'next',
-                      prerelease: 'beta',
+                      name: process.env.GITHUB_REF_NAME,
+                      prerelease: 'next',
                   },
               ]
             : []),
