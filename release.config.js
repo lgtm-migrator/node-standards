@@ -1,5 +1,16 @@
 module.exports = {
-    branches: [{ name: 'main' }, { name: 'next', channel: 'next', prerelease: 'beta' }],
+    branches: [
+        { name: 'main' },
+        ...(process.env.BETA_RELEASE === 'true'
+            ? [
+                  {
+                      name: '*',
+                      channel: 'next',
+                      prerelease: 'beta',
+                  },
+              ]
+            : []),
+    ],
     plugins: [
         [
             '@semantic-release/commit-analyzer',
