@@ -131,4 +131,4 @@ PR's are very welcome if you think your project is missing here.
 
 ## License
 
-Therefore is [MIT licensed](./LICENSE).
+Node Standards is [MIT licensed](./LICENSE).
