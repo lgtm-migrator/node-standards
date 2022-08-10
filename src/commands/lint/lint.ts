@@ -100,6 +100,7 @@ export class ProjectLinter {
         this.lintScripts()
         this.lintPackageFiles()
         this.lintDependencies()
+
         this.lintDevDependencies()
 
         const fixed = JSON.stringify(this.packagejson, null, 2)

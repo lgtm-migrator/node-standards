@@ -1,12 +1,11 @@
 module.exports = {
     branches: [
         { name: 'main' },
-        ...(process.env.BETA_RELEASE === 'true'
+        ...(process.env.BETA_RELEASE === 'true' && process.env.GITHUB_REF_NAME !== undefined
             ? [
                   {
-                      name: '*',
-                      channel: 'next',
-                      prerelease: 'beta',
+                      name: process.env.GITHUB_REF_NAME,
+                      prerelease: `beta-${process.env.GITHUB_REF_NAME}`.replace(/[^0-9A-Za-z-]/g, '-'),
                   },
               ]
             : []),
