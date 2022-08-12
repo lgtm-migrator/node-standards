@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       beta_release:
-        description: Create stable release
+        description: Create beta release
         type: boolean
         required: false
         default: false

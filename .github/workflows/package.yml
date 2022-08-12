@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
       inputs:
         beta_release:
-          description: Create stable release
+          description: Create beta release
           required: true
           type: boolean
 

@@ -14,7 +14,7 @@ inputs:
     required: false
     default: 'hoid@zefiros.io'
   beta_release:
-    description: Create stable release
+    description: Create beta release
     required: false
     default: 'false'
 
